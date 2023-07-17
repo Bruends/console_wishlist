@@ -3,8 +3,8 @@ package org.example.entity;
 import java.math.BigDecimal;
 
 public record Item(
-        int id,
+        Integer id,
         String name,
         String storeLink,
-        BigDecimal price
+        Double price
 ) {}
