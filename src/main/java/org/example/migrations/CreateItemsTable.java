@@ -16,7 +16,6 @@ public class CreateItemsTable {
             String query = "CREATE TABLE IF NOT EXISTS items (" +
                         "id INT PRIMARY KEY AUTO_INCREMENT," +
                         "item_name VARCHAR(255) NOT NULL," +
-                        "store_link VARCHAR(255)," +
                         "price DECIMAL(10, 2))";
 
             Statement stmt = con.createStatement();

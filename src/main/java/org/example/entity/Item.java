@@ -1,10 +1,13 @@
 package org.example.entity;
 
-import java.math.BigDecimal;
-
 public record Item(
         Integer id,
         String name,
-        String storeLink,
         Double price
-) {}
+) {
+    @Override
+    public String toString() {
+        String str = id + " - " + name + " R$" + price.toString() + "\n";
+        return str;
+    }
+}

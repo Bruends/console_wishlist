@@ -3,7 +3,6 @@ package org.example.repositories;
 import org.example.entity.Item;
 import org.example.infra.DB;
 
-import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +22,12 @@ public class ItemRepository {
     }
 
     public boolean save(Item newItem) {
-        String query = "INSERT INTO items VALUES (DEFAULT, ?, ?, ?)";
+        String query = "INSERT INTO items VALUES (DEFAULT, ?, ?)";
         return executeUpdate(query, newItem);
     }
 
     public boolean update(Item newItem) {
-        String query = "UPDATE items SET item_name = ?, store_link = ?, price = ? WHERE id = ?";
+        String query = "UPDATE items SET item_name = ?, price = ? WHERE id = ?";
         return executeUpdate(query, newItem);
     }
 
@@ -60,7 +59,6 @@ public class ItemRepository {
                 Item item = new Item(
                         resultSet.getInt("id"),
                         resultSet.getString("item_name"),
-                        resultSet.getString("store_link"),
                         resultSet.getDouble("price")
                 );
 
@@ -81,14 +79,13 @@ public class ItemRepository {
         try {
             con = DB.getConnection();
             PreparedStatement stmt = con.prepareStatement(query);
-            if (item != null) {
-                stmt.setString(1, item.name());
-                stmt.setString(2, item.storeLink());
-                stmt.setDouble(3, item.price());
-                if (item.id() != null) {
-                    stmt.setInt(4, item.id());
-                }
+
+            stmt.setString(1, item.name());
+            stmt.setDouble(2, item.price());
+            if (item.id() != null) {
+                stmt.setInt(3, item.id());
             }
+
             int rowsAffected = stmt.executeUpdate();
 
             return rowsAffected >= 1;
@@ -105,7 +102,7 @@ public class ItemRepository {
         try {
             con = DB.getConnection();
             PreparedStatement stmt = con.prepareStatement(query);
-            stmt.setInt(4, id);
+            stmt.setInt(1, id);
             int rowsAffected = stmt.executeUpdate();
             return rowsAffected >= 1;
         } catch (SQLException ex) {
